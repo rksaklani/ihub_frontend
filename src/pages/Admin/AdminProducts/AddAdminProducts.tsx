@@ -48,7 +48,6 @@ export const AddAdminProducts = () => {
       IssuedTo: formData.IssuedTo
     };
     try {
-      // const fixedProductData:any =  JSON.stringify(productData)
       console.log(productData)
      
       const response = await createProduct(productData).unwrap();
@@ -64,52 +63,66 @@ export const AddAdminProducts = () => {
   };
 
 
-
-
-const handleFileUpload = async (event:any) => {
+  const convertJsonToModelData = (jsonData:any) => {
+    return jsonData.map((item:any) => {
+      return {
+        UniqueID: item['Unique Identity No'],
+        ItemName: item['Item Name'],
+        Make: item.Make,
+        ModelNumber: item['Model Number'],
+        SerialNumber: item['Serial Number'],
+        Quantity: item.Quantity,
+        IssuedTo: item['Issued To'],
+      };
+    });
+  };
   
-const file = event.target.files?.[0]; // Get uploaded file
-setSelectedFile(file);
-  if (!file) {
-    alert('Please upload a valid Excel file.');
-    return;
-  }
-
-  try {
-    const reader = new FileReader();
-    
-    reader.onload = async (e) => {
-      const data = e.target?.result;
-      const workbook = XLSX.read(data, { type: 'binary' });
-      const sheetName = workbook.SheetNames[0];
-      const sheet = workbook.Sheets[sheetName];
-      let jsonData = XLSX.utils.sheet_to_json(sheet);
+  const handleFileUpload = (event:any) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setSelectedFile(file); // Store file but do nothing yet
+    }
+  };
   
-
+  const processFile = async (file:any) => {
+    try {
+      const reader = new FileReader();
+  
+      reader.onload = async (e) => {
+        const data = e.target?.result;
+        const workbook = XLSX.read(data, { type: 'binary' });
+        const sheetName = workbook.SheetNames[0];
+        const sheet = workbook.Sheets[sheetName];
+        let jsonData = XLSX.utils.sheet_to_json(sheet);
+        let modelData = convertJsonToModelData(jsonData);
+  
         try {
-          await createProduct(jsonData).unwrap();
-          console.log('Product uploaded successfully:', jsonData);
+          await createProduct(modelData).unwrap();
+          console.log('Product uploaded successfully:', modelData);
           alert('File uploaded and processed successfully!');
-          setFormData([{}])
-          refetch()
+          setFormData([{}]);
+          refetch();
         } catch (error) {
           console.error('Error uploading product:', error);
         }
-    };
-
-    reader.readAsBinaryString(file);
-  } catch (error) {
-    console.error('Error uploading file:', error);
-    alert('An error occurred while uploading the file.');
-  }
-};
-
-const handleUploadClick = () => {
-  if (!selectedFile) {
-    alert("Please select a file first!");
-    return;
-  }
-};
+      };
+  
+      reader.readAsBinaryString(file);
+    } catch (error) {
+      console.error('Error processing file:', error);
+      alert('An error occurred while processing the file.');
+    }
+  };
+  
+  const handleUploadClick = () => {
+    debugger
+    if (!selectedFile) {
+      alert('Please select a file first!');
+      return;
+    }
+  
+    processFile(selectedFile); // Process only on button click
+  };
 
 
   return (
@@ -121,8 +134,7 @@ const handleUploadClick = () => {
           <div className="flex flex-col gap-5.5 p-6.5">
  
             <div className="flex items-center">
-              {' '}
-              {/* Flex container for input and button */}
+
               <input
                 id="file-upload"
                 type="file"
@@ -133,7 +145,7 @@ const handleUploadClick = () => {
               <button
                 className="flex-1 ml-4 rounded bg-primary py-4 font-medium text-white hover:bg-opacity-90"
                 type="submit"
-       onClick={handleUploadClick}
+                onClick={handleUploadClick}
 
               >
                 Upload your file

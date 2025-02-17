@@ -63,8 +63,8 @@ const AdminHeader = (props: {
           </Link>
         </div>
 
-        <div className="hidden sm:block">
-          <form action="https://formbold.com/s/unique_form_id" method="POST">
+        {/* <div className="hidden sm:block">
+          <form action="https://formbold.com/s/unique_form_id" method="POST"> */}
             {/* <div className="relative">
               <button className="absolute left-0 top-1/2 -translate-y-1/2">
                 <svg
@@ -96,8 +96,45 @@ const AdminHeader = (props: {
                 className="w-full bg-transparent pl-9 pr-4 text-black focus:outline-none dark:text-white xl:w-125"
               />
             </div> */}
-          </form>
-        </div>
+              {/* <div className="flex justify-end px-6 py-3">
+        <button
+          onClick={() => setSidebarExpanded(!sidebarExpanded)}
+          className="text-white hover:text-gray-400 focus:outline-none"
+        >
+          {sidebarExpanded ? (
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokewidth="1.5" stroke="currentColor" className="size-6">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+        </svg>
+        
+          ) : (
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokewidth="1.5" stroke="currentColor" className="size-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+          </svg>
+          
+          )}
+        </button>
+      </div> */}
+          {/* </form>
+        </div> */}
+
+          <div className="flex justify-end px-6 py-3">
+        <button
+          // onClick={() => setSidebarExpanded(!sidebarExpanded)}
+          className="text-black hover:text-gray-400 focus:outline-none"
+        >
+          {true ? (
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokewidth="1.5" stroke="currentColor" className="size-6">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+        </svg>
+        
+          ) : (
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokewidth="1.5" stroke="currentColor" className="size-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+          </svg>
+          
+          )}
+        </button>
+      </div>
 
         <div className="flex items-center gap-3 2xsm:gap-7">
           <ul className="flex items-center gap-2 2xsm:gap-4">

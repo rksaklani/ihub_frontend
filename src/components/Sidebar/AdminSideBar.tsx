@@ -678,14 +678,7 @@ const AdminSideBar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
   });
 
   // Close sidebar on ESC key press
-  useEffect(() => {
-    const keyHandler = ({ keyCode }: KeyboardEvent) => {
-      if (!sidebarOpen || keyCode !== 27) return;
-      setSidebarOpen(false);
-    };
-    document.addEventListener('keydown', keyHandler);
-    return () => document.removeEventListener('keydown', keyHandler);
-  });
+
 
   // Persist sidebar state in localStorage
   useEffect(() => {
@@ -742,44 +735,24 @@ const AdminSideBar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
       </div>
 
       {/* SIDEBAR TOGGLE BUTTON */}
-      <div className="flex justify-end px-6 py-3">
+      {/* <div className="flex justify-end px-6 py-3">
         <button
           onClick={() => setSidebarExpanded(!sidebarExpanded)}
           className="text-white hover:text-gray-400 focus:outline-none"
         >
           {sidebarExpanded ? (
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M15 19l-7-7 7-7"
-              />
-            </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokewidth="1.5" stroke="currentColor" className="size-6">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+        </svg>
+        
           ) : (
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M9 5l7 7-7 7"
-              />
-            </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokewidth="1.5" stroke="currentColor" className="size-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+          </svg>
+          
           )}
         </button>
-      </div>
+      </div> */}
 
       {/* SIDEBAR MENU */}
       <div className="no-scrollbar flex flex-col overflow-y-auto duration-300 ease-linear">

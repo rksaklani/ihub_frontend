@@ -64,9 +64,12 @@ export const SignIn: React.FC = () => {
   };
   return (
     <>
-      <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
+
+<div className="h-screen w-screen bg-gray-100 flex items-center justify-center">
+{/* <div className="backdrop-blur-lg bg-white/10 p-8 rounded-2xl shadow-lg"> */}
+      <div className="rounded-sm shadow-default">
         <div className="flex flex-wrap items-center">
-          <div className="hidden w-full xl:block xl:w-1/2">
+          <div className=" w-full xl:block xl:w-1/2">
             <div className="py-17.5 px-26 text-center">
               <h1 className="text-3xl font-bold text-black">iHub Inventory </h1>
               <span className="mt-15 inline-block">
@@ -316,6 +319,14 @@ export const SignIn: React.FC = () => {
           </div>
         </div>
       </div>
+       
+ {/* </div> */}
+</div>
     </>
   );
 };
+
+
+
+
+

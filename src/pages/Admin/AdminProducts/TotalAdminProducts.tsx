@@ -121,7 +121,7 @@ export const TotalAdminProducts = () => {
 
       // Add row to worksheet for Excel file
       worksheet.addRow({
-       eId: item.UniqueID,
+       UniqueID: item.UniqueID,
 
 
        ItemName: item.ItemName,
@@ -131,7 +131,7 @@ export const TotalAdminProducts = () => {
 
         Quantity: item.Quantity,
 
-        issuedTo: item.IssuedTo,
+        IssuedTo: item.IssuedTo,
       });
 
       // Push the final data with the matched category ID into the result array
@@ -157,7 +157,7 @@ export const TotalAdminProducts = () => {
     const worksheet = workbook.addWorksheet('Inventory Data');
 
     worksheet.columns = [
-      { header: 'Unique Identity No', key: 'UniqueId', width: 25 },
+      { header: 'Unique Identity No', key: 'UniqueID', width: 25 },
       { header: 'Item Name', key: 'ItemName', width: 25 },
       { header: 'Make', key: 'Make', width: 20 },
       { header: 'ModelNumber', key: 'ModelNumber', width: 20 },
@@ -167,8 +167,8 @@ export const TotalAdminProducts = () => {
         width: 25,
       },
 
-      { header: 'Quantity', key: 'quantity', width: 15 },
-      { header: 'Issued To', key: 'issuedTo', width: 20 },
+      { header: 'Quantity', key: 'Quantity', width: 15 },
+      { header: 'Issued To', key: 'IssuedTo', width: 20 },
     ];
     addAndCheckCategory(inventoryData, worksheet);
 
