@@ -11,30 +11,30 @@ import {
 import Loader from '../../../components/Loader';
 import { ToastContainer, toast } from 'react-toastify';
 export const TotalAdminProducts = () => {
-  const { data: inventoryDatas, isLoading, refetch } = useGetAdminProductsQuery();
+  const { data: ItemData, isLoading, refetch } = useGetAdminProductsQuery();
 
   const [updateApi] = useUpdateAdminProductsMutation();
   const [deleteApi] = useDeleteAdminProductsByIdMutation();
 
   const [inventoryData, setInventoryData] = useState<any | undefined>(
-    inventoryDatas,
+    ItemData,
   );
   const [searchQuery, setSearchQuery] = useState('');
   const [editingRow, setEditingRow] = useState<number | null>(null);
-  const [isEditing, setIsEditing] = useState(false);
+  // const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
-    if (!inventoryDatas || !inventoryDatas.length) {
+    if (!ItemData || !ItemData.length) {
       <Loader />; // Set inventory data to an empty array if no data is available
       return;
     }
 
-    setInventoryData(inventoryDatas); // Keep inventory data updated when the query changes
-  }, [inventoryDatas]);
+    setInventoryData(ItemData); // Keep inventory data updated when the query changes
+  }, [ItemData]);
 
   const handleUpdate = (index: number) => {
     setEditingRow(index);
-    setIsEditing(true);
+    // setIsEditing(true);
 
     // This will set the editing row to the current row index
   };
@@ -42,7 +42,6 @@ export const TotalAdminProducts = () => {
   const handleSave = async (index: number) => {
     debugger
     const updatedItem = inventoryData[index];
-
     const updatedData = {
       id: updatedItem._id, // Assuming UniqueID is used for identification
       updates: {
@@ -65,6 +64,7 @@ export const TotalAdminProducts = () => {
         autoClose: 3000,
       });
       console.log('Update Success:', response);
+      setInventoryData({})
        refetch(); // Trigger refetch to update the data after saving
     } catch (error) {
       toast.error(
@@ -79,24 +79,28 @@ export const TotalAdminProducts = () => {
     setEditingRow(null); // Exit edit mode after saving
   };
 
-  const handleDelete = async (id: any) => {
+  const handleDelete = async (id:any) => {
     try {
       await deleteApi(id).unwrap();
+  
       toast.success('Deleted successfully!', {
         position: 'top-right',
         autoClose: 3000,
       });
-      refetch(); // Refetch data after deletion
+  
+      // Update local state to reflect deletion
+      setInventoryData((prevData:any) => prevData.filter((item:any) => item._id !== id));
+  
+      // Ensure the latest data is fetched
+      await refetch();
     } catch (error) {
-      toast.error(
-        'Deletion failed.',
-        {
-          icon: false,
-        },
-      );
-      console.log('Delete error:', error);
+      toast.error('Deletion failed.', {
+        icon: false,
+      });
+      console.error('Delete error:', error);
     }
   };
+  
 
   const handleInputChange = <T extends keyof (typeof inventoryData)[0]>(
     index: number,
@@ -161,11 +165,7 @@ export const TotalAdminProducts = () => {
       { header: 'Item Name', key: 'ItemName', width: 25 },
       { header: 'Make', key: 'Make', width: 20 },
       { header: 'ModelNumber', key: 'ModelNumber', width: 20 },
-      {
-        header: 'Serial Number',
-        key: 'SerialNumber',
-        width: 25,
-      },
+      { header: 'Serial Number',key: 'SerialNumber',width: 25},
 
       { header: 'Quantity', key: 'Quantity', width: 15 },
       { header: 'Issued To', key: 'IssuedTo', width: 20 },

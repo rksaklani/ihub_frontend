@@ -2,18 +2,21 @@ import React, { useState } from 'react';
 import Breadcrumb from '../../../components/Breadcrumbs/Breadcrumb';
 import FormField from '../../../components/Forms/inputs/FormFields';
 import { useCreateAdminProductsMutation,useGetAdminProductsQuery } from '../../../store/api/admin/adminProducts/AdminProducts';
-
+import { ToastContainer, toast } from 'react-toastify';
 import * as XLSX from 'xlsx';
 
 export const AddAdminProducts = () => {
   const [selectedFile, setSelectedFile] = useState(null);
-  const [createProduct, { isLoading, isSuccess }] =
+  const [createProduct, { isLoading }] =
     useCreateAdminProductsMutation();
  
   const {  refetch } = useGetAdminProductsQuery();
 
+
+  
+
   const [formData, setFormData] = useState<any>({
-    UniqueID: '',
+    // UniqueID: '',
     ItemName: '',
     Make: '',
     ModelNumber: '',
@@ -26,7 +29,7 @@ export const AddAdminProducts = () => {
   // Handle input changes
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData((prevData) => ({ ...prevData, [name]: value }));
+    setFormData((prevData:any) => ({ ...prevData, [name]: value }));
   };
 
 
@@ -36,10 +39,10 @@ export const AddAdminProducts = () => {
     debugger
 
     e.preventDefault();
- 
+ console.log(e,formData)
     const productData = {
 
-      UniqueID: formData.UniqueID,
+      // UniqueID: formData.UniqueID,
       ItemName: formData.ItemName,
       ModelNumber: formData.ModelNumber,
       Make: formData.Make,
@@ -48,14 +51,24 @@ export const AddAdminProducts = () => {
       IssuedTo: formData.IssuedTo
     };
     try {
-      console.log(productData)
+      // console.log(productData)
      
-      const response = await createProduct(productData).unwrap();
+     await createProduct(productData).unwrap();
+      toast.success('Product uploaded successfully', {
+        position: 'top-right',
+        autoClose: 3000,
+      });
       setFormData([{}])
       refetch()
-      console.log('Product created successfully:', response);
+      // console.log('Product created successfully:', response);
     } catch (err) {
       console.error('Failed to create product:', err);
+      toast.error(
+        `Something went wrong! Please check the file and try again.`,
+        {
+          icon: false,
+        },
+      );
     }
   
    
@@ -65,8 +78,9 @@ export const AddAdminProducts = () => {
 
   const convertJsonToModelData = (jsonData:any) => {
     return jsonData.map((item:any) => {
+  
       return {
-        UniqueID: item['Unique Identity No'],
+        // UniqueID: `ihub/${String(index + 1).padStart(3, '0')}`,
         ItemName: item['Item Name'],
         Make: item.Make,
         ModelNumber: item['Model Number'],
@@ -98,12 +112,20 @@ export const AddAdminProducts = () => {
   
         try {
           await createProduct(modelData).unwrap();
-          console.log('Product uploaded successfully:', modelData);
-          alert('File uploaded and processed successfully!');
+          // console.log('Product uploaded successfully:', modelData);
+          toast.success('Product uploaded successfully', {
+            position: 'top-right',
+            autoClose: 3000,
+          });
           setFormData([{}]);
           refetch();
         } catch (error) {
-          console.error('Error uploading product:', error);
+          toast.error(
+            `Something went wrong! Please check the file and try again.`,
+            {
+              icon: false,
+            },
+          );
         }
       };
   
@@ -150,6 +172,7 @@ export const AddAdminProducts = () => {
               >
                 Upload your file
               </button>
+              <ToastContainer />
             </div>
           </div>
         </div>
@@ -163,7 +186,7 @@ export const AddAdminProducts = () => {
               <div className="flex flex-col gap-5.5 p-6.5">
                 
 
-                <FormField
+                {/* <FormField
                   label="Unique ID"
                   type="text"
                   placeholder="Unique ID"
@@ -171,7 +194,7 @@ export const AddAdminProducts = () => {
                   value={formData.UniqueID}
                   onChange={handleInputChange}
                 />
-               
+                */}
                 <FormField
                   label="Item Name"
                   type="text"
@@ -189,14 +212,14 @@ export const AddAdminProducts = () => {
                   onChange={handleInputChange}
                 />
                 <FormField
-                  label="ModelNumber"
+                  label="Model Number"
                   type="text"
                   placeholder="ModelNumber"
                   name="ModelNumber"
                   value={formData.ModelNumber}
                   onChange={handleInputChange}
                 />
-                <FormField
+            <FormField
                   label="Serial Number"
                   type="text"
                   placeholder="Serial Number"
@@ -211,7 +234,8 @@ export const AddAdminProducts = () => {
 
           <div className="flex flex-col gap-9">
             <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
-              <div className="flex flex-col gap-5.5 p-7.5">
+              <div className="flex flex-col gap-5.5 p-9.5 h-95">
+              
                 <FormField
                   label="Quantity"
                   type="number"
@@ -231,19 +255,20 @@ export const AddAdminProducts = () => {
               </div>
               <div className="flex justify-end p-6">
                 <button
-                  className="flex justify-center rounded bg-primary py-2 px-6 font-medium text-white hover:bg-opacity-90"
+                  className="flex justify-center rounded bg-primary py-2 px-12 font-medium text-white hover:bg-opacity-90"
                   type="submit"
                   // disabled={isLoading}
                 >
                   {isLoading ? 'Saving...' : 'Save'}
                 </button>
+                <ToastContainer />
               </div>
             </div>
           </div>
         </div>
-        {isSuccess && (
+        {/* {isSuccess && (
           <p className="text-green-500">Product added successfully!</p>
-        )}
+        )} */}
         {/* {isError && <p className="text-red-500">Error: {error?.data?.message || "Something went wrong!"}</p>} */}
       </form>
     </>

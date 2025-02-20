@@ -57,7 +57,7 @@ const AdminSettings = () => {
                           name="fullName"
                           id="fullName"
                           placeholder="Enter your name"
-                          defaultValue="Rk Saklani"
+                          defaultValue="Admin"
                         />
                       </div>
                     </div>

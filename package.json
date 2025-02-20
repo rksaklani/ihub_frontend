@@ -9,7 +9,7 @@
     "preview": "vite preview"
   },
   "author": {
-    "name": "Rk Saklani"
+    "name": "Admin"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.5.1",
