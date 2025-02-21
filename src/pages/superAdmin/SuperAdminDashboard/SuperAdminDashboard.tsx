@@ -1,7 +1,7 @@
 import React from 'react';
 import CardDataStats from '../../../components/CardDataStats';
 import ChartOne from '../../../components/Charts/ChartOne';
-import ChartTwo from '../../../components/Charts/ChartTwo';
+import BarChart from '../../../components/Charts/BarChart';
 import ChartThree from '../../../components/Charts/ChartThree';
 
 
@@ -99,7 +99,7 @@ export const SuperAdminDashboard: React.FC = () => {
       <ChartThree/>
       </div>
       {/* <div className="flex justify-start ">
-     <ChartTwo/>
+     <BarChart/>
      </div> */}
      
     </>

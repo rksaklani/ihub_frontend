@@ -166,7 +166,6 @@ export const TotalAdminProducts = () => {
       { header: 'Make', key: 'Make', width: 20 },
       { header: 'ModelNumber', key: 'ModelNumber', width: 20 },
       { header: 'Serial Number',key: 'SerialNumber',width: 25},
-
       { header: 'Quantity', key: 'Quantity', width: 15 },
       { header: 'Issued To', key: 'IssuedTo', width: 20 },
     ];
@@ -220,12 +219,19 @@ export const TotalAdminProducts = () => {
   };
 
   //  const data= addAndCheckCategory(inventoryData)
-  const filteredData = inventoryData?.filter((item: any) =>
-    Object.values(item).some((value: any) =>
-      value.toString().toLowerCase().includes(searchQuery.toLowerCase()),
-    ),
-  );
-
+  // const filteredData = inventoryData?.filter((item: any) =>
+    
+  //   Object.values(item).some((value: any) =>
+  //     value.toString().toLowerCase().includes(searchQuery.toLowerCase()),
+  //   ),
+  // );
+  const filteredData = Array.isArray(inventoryData)
+  ? inventoryData.filter((item: any) =>
+      Object.values(item).some((value: any) =>
+        value?.toString().toLowerCase().includes(searchQuery.toLowerCase())
+      )
+    )
+  : [];
   return (
     <>
       <Breadcrumb pageName="Total Product" />

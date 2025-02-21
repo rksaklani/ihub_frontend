@@ -11,25 +11,19 @@ import { ROUTES } from "../components/consts/const";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 import {
-  selectAuthMe,
+  // selectAuthMe,
   selectIsLoggedIn,
 } from "../store/selectors/auth.selector";
-
-// import { useLazyGetLoginQuery } from "../store/api/auth/auth.api";
-import { useDispatch, useSelector } from "react-redux";
+import {  useSelector } from "react-redux";
 import { AuthLayout } from "../layout/AuthLayout";
 import { AuthNavigator } from "./auth.navigator";
-// // import { useSessionUser } from "../store/hooks/session.hook";
 import { UnAuthLayout } from "../layout/UnAuthLayout";
 import Loader from "../components/Loader";
 // import Dashboard from "../pages/Admin/AdminDashboard/AdminDashbord";
 import { SuperAdminDashboard } from "../pages/superAdmin/SuperAdminDashboard/SuperAdminDashboard";
-// import Settings from "../pages/Admin/AdminSettings/Settings";
 
-// import { AddAdminProducts, BuyNewAdminProducts, AdminProfile, TotalAdminProducts} from "../pages/Admin";
 import {
   AddSuperAdminProducts,
-  // BuyNewSuperAdminProducts,
   SuperAdminProfile,
   TotalSuperAdminProducts,
 } from "../pages/superAdmin";
@@ -76,7 +70,7 @@ const RootNavigator = () => {
         <Route element={<AuthLayout />}>
           <Route element={<AuthNavigator />}>
             {/* Common Authenticated Routes */}
-            {/* <Route path={ROUTES.LOADING} element={<Loader />} /> */}
+            <Route path={ROUTES.LOADING} element={<Loader />} />
 
             {/* Admin Routes */}
             {role === "admin" && (

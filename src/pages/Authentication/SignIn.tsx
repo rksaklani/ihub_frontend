@@ -28,7 +28,7 @@ export const SignIn: React.FC = () => {
     }
     // const notify = () => toast("Wow so easy!");
     try {
-      const response = await loginUser({ email, password, role }).unwrap();
+      const response:any = await loginUser({ email, password, role }).unwrap();
 
       // Dispatch the setCredentials action to store user and token in Redux state
       dispatch(
