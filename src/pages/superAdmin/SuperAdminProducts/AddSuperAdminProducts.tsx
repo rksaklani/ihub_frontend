@@ -10,7 +10,7 @@ import * as XLSX from 'xlsx';
 
 export const AddSuperAdminProducts = () => {
   const [selectedFile, setSelectedFile] = useState(null);
-  const [selectedCategory, setSelectedCategory] = useState();
+  const [selectedCategory, setSelectedCategory] = useState<any>();
   const [createProduct, { isLoading, isSuccess }] =
     useCreateProductsMutation();
   const { data: categoryList } = useGetCategoryQuery(undefined, {
@@ -41,28 +41,18 @@ export const AddSuperAdminProducts = () => {
   // Handle input changes
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData((prevData) => ({ ...prevData, [name]: value }));
+    setFormData((prevData:any) => ({ ...prevData, [name]: value }));
   };
 
   // Handle category change
   const handleCategoryChange = (value: string) => {
-    setSelectedCategory((prevData) => ({ ...prevData, category: value }));
-    setFormData((prevData) => ({ ...prevData, category: value }));
+    setSelectedCategory((prevData:any) => ({ ...prevData, category: value }));
+    setFormData((prevData:any) => ({ ...prevData, category: value }));
   };
 
   // Handle form submission
   const handleSubmit = async (e: React.FormEvent) => {
-    
-    const ff= selectedCategory?.category
-    console.log(ff)
-    // const matchedCategory: any =
-    //   categoryList &&
-    //   categoryList?.find(
-    //     (category) =>
-    //       category?.AssetName.trim().toLowerCase() ===
-    //       formData.assetName.trim().toLowerCase(),
-    //   );
-
+  
     e.preventDefault();
   if(selectedCategory!== undefined){
     const productData = {
@@ -109,7 +99,7 @@ export const AddSuperAdminProducts = () => {
   const handleStartDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
   
-    setFormData((prevData) => ({
+    setFormData((prevData:any) => ({
       ...prevData,
       session: {
         ...prevData.session, // Preserve other session fields
@@ -120,7 +110,7 @@ export const AddSuperAdminProducts = () => {
 
   const handleEndDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
-    setFormData((prevData) => ({
+    setFormData((prevData:any) => ({
       ...prevData,
       session: {
         ...prevData.session, // Preserve other session fields
@@ -377,31 +367,27 @@ const handleUploadClick = () => {
       <Breadcrumb pageName="Add Product" />
 
       <div className="grid grid-cols-1">
-        <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
-          <div className="flex flex-col gap-5.5 p-6.5">
- 
-            <div className="flex items-center">
-              {' '}
-              {/* Flex container for input and button */}
-              <input
-                id="file-upload"
-                type="file"
-                accept=".xlsx, .xls"
-                onChange={handleFileUpload}
-                className="flex-1 rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary dark:disabled:bg-black"
-              />
-              <button
-                className="flex-1 ml-4 rounded bg-primary py-4 font-medium text-white hover:bg-opacity-90"
-                type="submit"
-       onClick={handleUploadClick}
-
-              >
-                Upload your file
-              </button>
-            </div>
+      <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark p-4">
+        <div className="flex flex-col gap-4 p-4">
+          <div className="flex flex-col sm:flex-row items-center gap-4">
+            <input
+              id="file-upload"
+              type="file"
+              accept=".xlsx, .xls"
+              onChange={handleFileUpload}
+              className="w-full sm:flex-1 rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary dark:disabled:bg-black"
+            />
+            <button
+              className="w-full sm:w-auto sm:flex-1 px-6 py-3 rounded bg-primary font-medium text-white hover:bg-opacity-90"
+              type="submit"
+              onClick={handleUploadClick}
+            >
+              Upload your file
+            </button>
           </div>
         </div>
       </div>
+    </div>
 
       <div className="p-4"></div>
       <form onSubmit={handleSubmit}>
@@ -482,14 +468,7 @@ const handleUploadClick = () => {
                   value={formData.productSerialNumber}
                   onChange={handleInputChange}
                 /> */}
-                <FormField
-                  label="Vendor Name"
-                  type="text"
-                  placeholder="Vendor Name"
-                  name="vendorName"
-                  value={formData.vendorName}
-                  onChange={handleInputChange}
-                />
+               
               </div>
             </div>
           </div>
@@ -497,6 +476,14 @@ const handleUploadClick = () => {
           <div className="flex flex-col gap-9">
             <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
               <div className="flex flex-col gap-5.5 p-7.5">
+              <FormField
+                  label="Vendor Name"
+                  type="text"
+                  placeholder="Vendor Name"
+                  name="vendorName"
+                  value={formData.vendorName}
+                  onChange={handleInputChange}
+                />
                 <FormField
                   label="Quantity"
                   type="number"

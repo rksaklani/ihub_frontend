@@ -6,7 +6,8 @@ const FormField = ({
   placeholder,
   value,
   onChange,
-  name
+  name,
+  className
 
 }: {
   label?: string;
@@ -14,7 +15,7 @@ const FormField = ({
   placeholder: string;
   value?: string;
   name: string;
-
+  className?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }) => {
   return (

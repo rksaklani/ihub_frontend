@@ -14,7 +14,7 @@ const BarChart = ({ data }: any) => {
   // Chart options
   const options: ApexOptions = {
     chart: {
-      type: 'bar', // Ensure the type is valid
+      type: 'bar',
     },
     xaxis: {
       categories,
@@ -34,6 +34,15 @@ const BarChart = ({ data }: any) => {
       '#33FF86', '#86FF33', '#FF8633', '#8633FF', '#FF3386',
       '#FFCC33', '#CC33FF', '#33FFCC', '#FF33CC', '#33AFFF',
     ],
+
+    dataLabels: {
+      enabled: true,
+      style: {
+        colors: ['#000'], // 👈 यहां पर नंबर का रंग सेट करें (Black)
+        fontSize: '14px',
+        fontWeight: 'bold',
+      },
+    },
   };
 
   // Chart series
@@ -45,15 +54,13 @@ const BarChart = ({ data }: any) => {
   ];
 
   return (
-    <>
-      <div className="sm:px-7.5 col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 pt-7.5 shadow-default dark:border-strokedark dark:bg-boxdark xl:col-span-5">
-        <div className="mb-3 justify-between gap-4 sm:flex">
-          <div id="chart">
-            <Chart options={options} series={series} type="bar" height={380} width={1035} />
-          </div>
+    <div className="w-full max-w-[1100px] mx-auto rounded-sm border border-stroke bg-white p-5 shadow-default dark:border-strokedark dark:bg-boxdark">
+      <div className="overflow-x-auto">
+        <div className="min-w-[600px] max-w-full">
+          <Chart options={options} series={series} type="bar" height={380} width="100%" />
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

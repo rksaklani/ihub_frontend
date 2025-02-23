@@ -28,7 +28,9 @@ const DropDown: React.FC<DropDownProps> = ({
   defaultValue = "",
   buttonInUse,
 }) => {
-  const { data: categoryList, refetch } = useGetCategoryQuery(); // Fetch categories
+  const {refetch } = useGetCategoryQuery(undefined, {
+    refetchOnMountOrArgChange: true,
+  }); // Fetch categories
   const [deleteCategoryById] = useDeleteCategoryByIdMutation();
   const [createCategory] = useCreateCategoryMutation();
   const [updateCategory] = useUpdateCategoryMutation();
@@ -37,7 +39,7 @@ const DropDown: React.FC<DropDownProps> = ({
   const [editOption, setEditOption] = useState<Option | null>(null);
   const [newCategoryName, setNewCategoryName] = useState<string>(""); // State for new category name
   const [dropdownOpen, setDropdownOpen] = useState(false);
-
+const [selectedCategory, setSelectedCategory] = useState<any>(null);
   const handleSelectChange = (value: string, assetName: string) => {
     setSelectedOption(assetName);
     onChange(value);
@@ -51,9 +53,17 @@ const DropDown: React.FC<DropDownProps> = ({
   };
 
   const handleAddCategory = async () => {
-    if (newCategoryName.trim() === "") return; // Prevent empty category creation
+    debugger
+    // if (newCategoryName.trim() === "") return; // Prevent empty category creation
+    if (!selectedCategory || !newCategoryName) {
+      alert("Please select a category and enter an asset name.");
+      return;
+    }
+    const payload: any = {
+      [`CategoryType.${selectedCategory}.AssetName`]: newCategoryName,
+    };
     try {
-      const response = await createCategory({ AssetName: newCategoryName }).unwrap();
+      const response = await createCategory(payload).unwrap();
       console.log('Category Created:', response);
       setIsPopupOpen(false);
       setNewCategoryName(""); // Reset input
@@ -71,8 +81,8 @@ const DropDown: React.FC<DropDownProps> = ({
     };
 
     try {
-      const response:any = await updateCategory(updatedData).unwrap();
-      // console.log('Update Success:', response);
+     await updateCategory(updatedData).unwrap();
+ 
       setIsPopupOpen(false);
       setEditOption(null); // Reset edit option
       setNewCategoryName(""); // Reset input
@@ -102,6 +112,9 @@ const DropDown: React.FC<DropDownProps> = ({
     setDropdownOpen((prev) => !prev);
   };
 
+  const categories = ["Tangible", "InTangible"];
+
+
   return (
     <ClickOutside onClick={() => setDropdownOpen(false)} className="relative">
       <label className="mb-2.5 block text-black dark:text-white">{label}</label>
@@ -120,40 +133,84 @@ const DropDown: React.FC<DropDownProps> = ({
       </div>
 
       {dropdownOpen && (
-        <ul className="absolute z-30 mt-2 w-full  max-h-60 overflow-y-auto rounded border border-stroke bg-white p-2 shadow-lg dark:border-form-strokedark dark:bg-form-input">
-          {options?.map((option: any) => (
-            <li
-              key={option._id}
-              className="flex justify-between items-center rounded bg-white p-2 hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-600 dark:hover:bg-gray-700"
-              onClick={() => handleSelectChange(option._id, option.AssetName)}
+  <ul className="absolute z-30 mt-2 w-full max-h-60 overflow-y-auto rounded border border-stroke bg-white p-2 shadow-lg dark:border-form-strokedark dark:bg-form-input">
+    
+    {/* 🟢 Tangible Assets */}
+    <li className="px-2 py-1 font-bold text-black dark:text-white">Tangible</li>
+    {options
+      ?.filter((option: any) => option?.CategoryType?.Tangible) // सिर्फ Tangible दिखाएँ
+      ?.map((option: any) => (
+        <li
+          key={option._id}
+          className="flex justify-between items-center rounded bg-white p-2 hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-600 dark:hover:bg-gray-700"
+          onClick={() => handleSelectChange(option._id, option.CategoryType.Tangible.AssetName)}
+        >
+          <span className="text-sm text-black dark:text-white">
+            {option?.CategoryType?.Tangible?.AssetName}
+            {console.log(option)}
+          </span>
+          <div className="flex space-x-2">
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                handleEdit(option);
+              }}
+              className="p-1 rounded text-blue-500 hover:bg-blue-100 dark:hover:bg-blue-800"
             >
-              <span className="text-sm text-black dark:text-white">
-                {option.AssetName}
-              </span>
-              <div className="flex space-x-2">
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleEdit(option);
-                  }}
-                  className="p-1 rounded text-blue-500 hover:bg-blue-100 dark:hover:bg-blue-800"
-                >
-                  <Edit className="w-4 h-4" />
-                </button>
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleDelete(option._id);
-                  }}
-                  className="p-1 rounded text-red-500 hover:bg-red-100 dark:hover:bg-red-800"
-                >
-                  <Trash className="w-4 h-4" />
-                </button>
-              </div>
-            </li>
-          ))}
-        </ul>
-      )}
+              <Edit className="w-4 h-4" />
+            </button>
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                handleDelete(option._id);
+              }}
+              className="p-1 rounded text-red-500 hover:bg-red-100 dark:hover:bg-red-800"
+            >
+              <Trash className="w-4 h-4" />
+            </button>
+          </div>
+        </li>
+      ))}
+
+    {/* 🔴 In-Tangible Assets */}
+    <li className="px-2 py-1 font-bold text-black dark:text-white">In-Tangible</li>
+    {options
+      ?.filter((option: any) => option?.CategoryType?.InTangible) // सिर्फ InTangible दिखाएँ
+      ?.map((option: any) => (
+        <li
+          key={option._id}
+          className="flex justify-between items-center rounded bg-white p-2 hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-600 dark:hover:bg-gray-700"
+          onClick={() => handleSelectChange(option._id, option.CategoryType.InTangible.AssetName)}
+        >
+          <span className="text-sm text-black dark:text-white">
+            {option?.CategoryType?.InTangible?.AssetName}
+            {console.log(option?.CategoryType?.InTangible?.AssetName)}
+          </span>
+          <div className="flex space-x-2">
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                handleEdit(option);
+              }}
+              className="p-1 rounded text-blue-500 hover:bg-blue-100 dark:hover:bg-blue-800"
+            >
+              <Edit className="w-4 h-4" />
+            </button>
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                handleDelete(option._id);
+              }}
+              className="p-1 rounded text-red-500 hover:bg-red-100 dark:hover:bg-red-800"
+            >
+              <Trash className="w-4 h-4" />
+            </button>
+          </div>
+        </li>
+      ))}
+  </ul>
+)}
+
 
       {isPopupOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-40">
@@ -161,6 +218,18 @@ const DropDown: React.FC<DropDownProps> = ({
             <h2 className="mb-4 text-lg font-bold text-black dark:text-white">
               {editOption ? "Edit Category" : "Add New Category"}
             </h2>
+            <select
+      value={selectedCategory}
+      onChange={(e) => setSelectedCategory(e.target.value)}
+      className="w-full rounded border border-stroke py-3 px-4 text-black outline-none transition focus:border-primary dark:border-strokedark dark:bg-form-input dark:text-white"
+    >
+      <option value="">Choose a category</option>
+      {categories.map((category, index) => (
+        <option key={index} value={category}>
+          {category}
+        </option>
+      ))}
+    </select>
             <label className="mb-2.5 block text-black dark:text-white">Asset Name</label>
             <input
               type="text"

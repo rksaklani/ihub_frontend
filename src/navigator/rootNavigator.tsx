@@ -14,7 +14,7 @@ import {
   // selectAuthMe,
   selectIsLoggedIn,
 } from "../store/selectors/auth.selector";
-import {  useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { AuthLayout } from "../layout/AuthLayout";
 import { AuthNavigator } from "./auth.navigator";
 import { UnAuthLayout } from "../layout/UnAuthLayout";
@@ -29,13 +29,14 @@ import {
 } from "../pages/superAdmin";
 import { SignIn, SignUp } from "../pages/Authentication/index";
 import SuperAdminSettings from "../pages/superAdmin/SuperAdminSettings/SuperAdminSettings";
-import { AddAdminProducts, AdminProfile,  TotalAdminProducts } from "../pages";
+import { AddAdminProducts, AdminProfile, TotalAdminProducts } from "../pages";
 import AdminDashboard from "../pages/Admin/AdminDashboard/AdminDashbord";
 import AdminSettings from "../pages/Admin/AdminSettings/AdminSettings";
-
+import SuperAdminInTangible from "../pages/superAdmin/SuperAdminDashboard/SuperAdminInTangible";
+import SuperAdminTangibleItem from "../pages/superAdmin/SuperAdminDashboard/SuperAdminTangibleItem";
+import SuperAdminTangible from "../pages/superAdmin/SuperAdminDashboard/SuperAdminTangible";
 
 const RootNavigator = () => {
-  ;
   const role = useSelector(
     (state: any) => state?.authentication?.me?.user?.role
   );
@@ -55,7 +56,7 @@ const RootNavigator = () => {
   };
 
   return (
-    <div style={{ display: "flex", flexDirection: "column",  height: "100vh" }}>
+    <div style={{ display: "flex", flexDirection: "column", height: "100vh" }}>
       <Routes>
         {/* Public Routes */}
         <Route element={<UnAuthLayout />}>
@@ -83,7 +84,7 @@ const RootNavigator = () => {
                   path={ROUTES.ADD_ADMIN_PRODUCTS}
                   element={<AddAdminProducts />}
                 />
-                
+
                 <Route
                   path={ROUTES.TOTAL_ADMIN_PRODUCTS}
                   element={<TotalAdminProducts />}
@@ -92,10 +93,7 @@ const RootNavigator = () => {
                   path={ROUTES.ADMIN_SETTINGS}
                   element={<AdminSettings />}
                 />
-                <Route
-                  path={ROUTES.ADMIN_PROFILE}
-                  element={<AdminProfile />}
-                />
+                <Route path={ROUTES.ADMIN_PROFILE} element={<AdminProfile />} />
               </>
             )}
             {/* Superadmin Routes */}
@@ -105,6 +103,22 @@ const RootNavigator = () => {
                   path={ROUTES.SUPER_ADMIN_DASHBOARD}
                   element={<SuperAdminDashboard />}
                 />
+
+                <Route
+                  path={ROUTES.SUPER_ADMIN_TANGIBLE}
+                  element={<SuperAdminTangible />}
+                />
+                <Route
+                  path={ROUTES.SUPER_ADMIN_INTANGIBLE}
+                  element={<SuperAdminInTangible />}
+                />
+                <Route
+                  path={`${ROUTES.SUPER_ADMIN_TANGIBLE_ITEM}/:categoryId`}
+                  element={<SuperAdminTangibleItem />}
+                />
+                
+                
+
                 <Route
                   path={ROUTES.ADD_SUPER_ADMIN_PRODUCTS}
                   element={<AddSuperAdminProducts />}

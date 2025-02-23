@@ -11,6 +11,7 @@ import DateRangeField from '../../../components/Forms/DatePicker/DateRange';
 import { useGetCategoryQuery } from '../../../store/api/superAdmin/category/categoryApi';
 import Loader from '../../../components/Loader';
 import { ToastContainer, toast } from 'react-toastify';
+import { Edit, Trash } from "lucide-react";
 export const TotalSuperAdminProducts = () => {
   const { data: inventoryDatas, isLoading, refetch } = useGetProductsQuery();
   const { data: categoryList } = useGetCategoryQuery(undefined, {
@@ -324,7 +325,6 @@ export const TotalSuperAdminProducts = () => {
       <div className="relative overflow-x-auto max-h-[500px]">
         {!isLoading ? (
           <>
-            {' '}
             <table className="w-full text-md text-center rtl:text-right text-gray-500 dark:text-gray-400">
               <thead className="sticky top-0 bg-gray-200 dark:bg-gray-800 border-gray-300">
                 <tr>
@@ -348,19 +348,12 @@ export const TotalSuperAdminProducts = () => {
               <tbody className="overflow-y-auto max-h-[400px]">
                 {filteredData &&
                   filteredData.map((item: any, index: number) => {
-                    // Array to store matched category IDs for each item in convertData
-                    let matchedCategories: any[] = [];
-
-                    // Loop through each inventory item to find the matched category
-
-                    const matchedCategory = categoryList?.find(
+                  const matchedCategory = categoryList?.find(
                       (category: any) => {
-                        console.log('Checking category:', category); // Log each category in categoryList
+                        console.log('Checking category:', category); 
                         return category._id === item.category;
                       },
                     );
-
-                    // Push the matched category ID to the matchedCategories array
                     let matchedAssetName = matchedCategory?.AssetName;
 
                     return (
@@ -370,38 +363,7 @@ export const TotalSuperAdminProducts = () => {
                       >
                         {editingRow === index ? (
                           <>
-                            {/* Combined StartDate and EndDate Column */}
                             <td className="px-6 py-4">
-                              {/* <DateRangeField
-                          label="Session Date (Start - End)"
-                          startDate={
-                            new Date(item.session.SessionStartDate)
-                              .toISOString()
-                              .split('T')[0]
-                          } // Convert to YYYY-MM-DD format
-                          endDate={
-                            new Date(item.session.SessionEndDate)
-                              .toISOString()
-                              .split('T')[0]
-                          } // Convert to YYYY-MM-DD format
-                          onStartDateChange={
-                            (e) =>
-                              handleInputChange(
-                                index,
-                                'session.SessionStartDate',
-                                e.target.value,
-                              ) // Directly pass the value from the event
-                          }
-                          onEndDateChange={
-                            (e) =>
-                              handleInputChange(
-                                index,
-                                'session.SessionEndDate',
-                                e.target.value,
-                              ) // Directly pass the value from the event
-                          }
-                          isEditing={isEditing}
-                        /> */}
 
                               <DateRangeField
                                 label="Session Date (Start - End)"
@@ -592,40 +554,6 @@ export const TotalSuperAdminProducts = () => {
                                 className="w-[150px] rounded-lg border-[1.5px] border-stroke bg-gray-200 py-3 px-5 text-black outline-none transition   disabled:cursor-default disabled:bg-gray-200 dark:border-form-strokedark dark:bg-gray-700 dark:text-white  dark:disabled:bg-gray-800"
                               />
                             </td>
-
-                            {/* 
-
-<td className="px-6 py-4">
-      <input
-        type="text"
-        value={selectedCategory}
-         onBlur={handleInputBlur} 
-        onClick={handleInputClick} // Show dropdown on input click
-        onChange={(e) => setSelectedCategory(e.target.value)} // Allow manual input
-        className="w-[150px] rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary dark:disabled:bg-black"
-        placeholder="Select a category"
-      />
-
-      {dropdownOpen && (
-        <ul className="absolute z-30 mt-2 w-40 rounded border border-stroke bg-white p-2 shadow-lg dark:border-form-strokedark dark:bg-form-input">
-          {categoryList?.map((category) => (
-            <li
-              key={category._id}
-              className="flex justify-between items-center rounded bg-white p-2 hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-600 dark:hover:bg-gray-700"
-              onClick={() => handleCategorySelect(category)}
-            >
-                 <div className="flex items-center">
-              <span className="text-sm text-black dark:text-white truncate w-32">
-                {category.AssetName}
-              </span>
-            </div>
-            </li>
-          ))}
-        </ul>
-      )}
-    </td>
- */}
-
                             <td className="px-6 py-4">
                               <input
                                 type="text"
@@ -669,52 +597,14 @@ export const TotalSuperAdminProducts = () => {
                             {/* Combined StartDate and EndDate Column */}
                             <td className="px-6 py-4">
                               {
-                                // new Date(item.SessionStartDate)
-                                //   .toISOString()
-                                //   .split('T')[0]
                                 getYear(item?.session?.SessionStartDate)
                               }
-                              /
+                              
                               {
-                                // new Date(item.SessionEndDate)
-                                //   .toISOString()
-                                //   .split('T')[0]
                                 getYear(item?.session?.SessionEndDate)
                               }
                             </td>
-                            {/* 
-<td className="px-6 py-4">
-                        <DateRangeField
-                          label="Session Date (Start - End)"
-                          startDate={
-                            new Date(item.session.SessionStartDate)
-                              .toISOString()
-                              .split('T')[0]
-                          } // Convert to YYYY-MM-DD format
-                          endDate={
-                            new Date(item.session.SessionEndDate)
-                              .toISOString()
-                              .split('T')[0]
-                          } // Convert to YYYY-MM-DD format
-                          onStartDateChange={
-                            (e) =>
-                              handleInputChange(
-                                index,
-                                'SessionStartDate',
-                                e.target.value,
-                              ) // Directly pass the value from the event
-                          }
-                          onEndDateChange={
-                            (e) =>
-                              handleInputChange(
-                                index,
-                                'SessionEndDate',
-                                e.target.value,
-                              ) // Directly pass the value from the event
-                          }
-                          isEditing={isEditing}
-                        />
-                      </td> */}
+                            
 
                             {/* Unique ID */}
                             <td className="px-6 py-4">{item?.UniqueID}</td>
@@ -753,7 +643,7 @@ export const TotalSuperAdminProducts = () => {
                             {/* Issued To */}
                             <td className="px-6 py-4">{item.IssuedTo}</td>
                             {/* Edit & Delete Buttons */}
-                            <td className="px-6 py-4">
+                            {/* <td className="px-6 py-4">
                               <button
                                 onClick={() => handleUpdate(index)}
                                 className="bg-yellow-500 text-white py-2 px-4 rounded"
@@ -769,6 +659,24 @@ export const TotalSuperAdminProducts = () => {
                               </button>
                               <ToastContainer />
                             </td>
+ */}
+
+                            {/* <div className="flex space-x-2"> */}
+                            <td className="px-6 py-4">
+                <button
+                 onClick={() => handleUpdate(index)}
+                  className="p-1 rounded text-blue-500 hover:bg-blue-100 dark:hover:bg-blue-800"
+                >
+                  <Edit className="w-4 h-4" />
+                </button>
+                <button
+                 onClick={() => handleDelete(item._id)}
+                  className="p-1 rounded text-red-500 hover:bg-red-100 dark:hover:bg-red-800"
+                >
+                  <Trash className="w-4 h-4" />
+                </button>
+                </td>
+              {/* </div> */}
                           </>
                         )}
                       </tr>

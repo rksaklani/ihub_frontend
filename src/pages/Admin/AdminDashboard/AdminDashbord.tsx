@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useGetAdminProductsQuery } from "../../../store/api/admin/adminProducts/AdminProducts";
 import AdminCardStatus from "../../../components/AdminCardStatus";
 import BarChart from "../../../components/Charts/BarChart";
+import Loader from "../../../components/Loader";
 
 const AdminDashboard: React.FC = () => {
   const [totalCategory, setTotalCategory] = useState<any>(0);
@@ -32,6 +33,7 @@ const AdminDashboard: React.FC = () => {
 
   return (
     <>
+     {getProductData ? (<>
       <div className="flex justify-between w-full">
         <div className="flex-1 flex justify-start mr-6">
           <AdminCardStatus
@@ -92,6 +94,7 @@ const AdminDashboard: React.FC = () => {
           <BarChart data={getProductData} />
         </div>
       </div>
+      </>):<Loader />}
     </>
   );
 };

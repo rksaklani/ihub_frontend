@@ -4,7 +4,7 @@ import ClickOutside from '../ClickOutside';
 import UserOne from '../../images/user/user-01.png';
 import { ROUTES } from '../consts/const';
 import {  useNavigate } from "react-router-dom";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import store from '../../store';
 import { authenticationSlice } from '../../store/slices/auth.slice';
 // import { clearSession } from '../../store/slices/session.slice';
@@ -18,7 +18,9 @@ const DropdownUser = () => {
     store.dispatch(authenticationSlice.actions.logout());
     navigate(ROUTES.LOGIN_PAGE)
   };
-
+  const role = useSelector(
+    (state: any) => state?.authentication?.me?.user.role
+  );
 
   return (
     <ClickOutside onClick={() => setDropdownOpen(false)} className="relative">
@@ -29,9 +31,9 @@ const DropdownUser = () => {
       >
         <span className="hidden text-right lg:block">
           <span className="block text-sm font-medium text-black dark:text-white">
-            Admin
+            {role==="superadmin"?"Super Admin":"Admin"}
           </span>
-          <span className="block text-xs">UX Designer</span>
+          {/* <span className="block text-xs">UX Designer</span> */}
         </span>
 
         <span className="h-12 w-12 rounded-full">
@@ -63,7 +65,7 @@ const DropdownUser = () => {
           <ul className="flex flex-col gap-5 border-b border-stroke px-6 py-7.5 dark:border-strokedark">
             <li>
               <Link
-                to="/profile"
+                to= {role==="superadmin"?ROUTES.SUPER_ADMIN_PROFILE:ROUTES.ADMIN_PROFILE}
                 className="flex items-center gap-3.5 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base"
               >
                 <svg
@@ -109,7 +111,7 @@ const DropdownUser = () => {
             </li> */}
             <li>
               <Link
-                to="admin/settings"
+                to={role==="superadmin"?ROUTES.SUPER_ADMIN_SETTINGS:ROUTES.ADMIN_SETTINGS}
                 className="flex items-center gap-3.5 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base"
               >
                 <svg

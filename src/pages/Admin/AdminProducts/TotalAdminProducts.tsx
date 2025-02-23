@@ -10,6 +10,7 @@ import {
 
 import Loader from '../../../components/Loader';
 import { ToastContainer, toast } from 'react-toastify';
+import { Edit, Trash } from 'lucide-react';
 export const TotalAdminProducts = () => {
   const { data: ItemData, isLoading, refetch } = useGetAdminProductsQuery();
 
@@ -235,21 +236,23 @@ export const TotalAdminProducts = () => {
   return (
     <>
       <Breadcrumb pageName="Total Product" />
-      <div className="mb-4 flex items-center justify-between ">
-        <FormField
-          type="text"
-          name="search"
-          placeholder="Search..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-        />
-        <button
-          onClick={downloadExcel}
-          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-        >
-          Download Excel
-        </button>
-      </div>
+      <div className="mb-4 flex flex-wrap items-center justify-between gap-2 sm:flex-nowrap">
+  <FormField
+    type="text"
+    name="search"
+    placeholder="Search..."
+    value={searchQuery}
+    onChange={(e) => setSearchQuery(e.target.value)}
+    className="w-ful sm:w-auto"
+  />
+  <button
+    onClick={downloadExcel}
+    className="w-full sm:w-auto px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+  >
+    Download Excel
+  </button>
+</div>
+
 
       <div className="relative overflow-x-auto max-h-[500px]">
         {!isLoading ? (
@@ -416,7 +419,7 @@ export const TotalAdminProducts = () => {
                             {/* Issued To */}
                             <td className="px-6 py-4">{item.IssuedTo}</td>
                             {/* Edit & Delete Buttons */}
-                            <td className="px-6 py-4">
+                            {/* <td className="px-6 py-4">
                               <button
                                 onClick={() => handleUpdate(index)}
                                 className="bg-yellow-500 text-white py-2 px-4 rounded"
@@ -430,8 +433,29 @@ export const TotalAdminProducts = () => {
                               >
                                 {isLoading ? 'deleting...' : 'Delete'}
                               </button>
-                              <ToastContainer />
-                            </td>
+                              
+                            </td> */}
+
+
+
+
+
+
+                            <td className="px-6 py-4">
+                <button
+                 onClick={() => handleUpdate(index)}
+                  className="p-1 rounded text-blue-500 hover:bg-blue-100 dark:hover:bg-blue-800"
+                >
+                  <Edit className="w-4 h-4" />
+                </button>
+                <button
+                 onClick={() => handleDelete(item._id)}
+                  className="p-1 rounded text-red-500 hover:bg-red-100 dark:hover:bg-red-800"
+                >
+                  <Trash className="w-4 h-4" />
+                  <ToastContainer />
+                </button>
+                </td>
                           </>
                         )}
                       </tr>
