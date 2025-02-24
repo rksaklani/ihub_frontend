@@ -56,7 +56,7 @@ const RootNavigator = () => {
   };
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", height: "100vh" }}>
+    <div >
       <Routes>
         {/* Public Routes */}
         <Route element={<UnAuthLayout />}>
