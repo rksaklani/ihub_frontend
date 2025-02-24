@@ -41,7 +41,7 @@ export const TotalAdminProducts = () => {
   };
 
   const handleSave = async (index: number) => {
-    debugger
+    
     const updatedItem = inventoryData[index];
     const updatedData = {
       id: updatedItem._id, // Assuming UniqueID is used for identification

@@ -36,7 +36,7 @@ export const AddAdminProducts = () => {
 
   // Handle form submission
   const handleSubmit = async (e: React.FormEvent) => {
-    debugger
+    
 
     e.preventDefault();
  console.log(e,formData)
@@ -137,7 +137,7 @@ export const AddAdminProducts = () => {
   };
   
   const handleUploadClick = () => {
-    debugger
+    
     if (!selectedFile) {
       alert('Please select a file first!');
       return;

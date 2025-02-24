@@ -53,7 +53,7 @@ const [selectedCategory, setSelectedCategory] = useState<any>(null);
   };
 
   const handleAddCategory = async () => {
-    debugger
+    
     // if (newCategoryName.trim() === "") return; // Prevent empty category creation
     if (!selectedCategory || !newCategoryName) {
       alert("Please select a category and enter an asset name.");
